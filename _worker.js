@@ -85,7 +85,7 @@ async function authenticateTelegram(initData, env) {
   if (authDate > now + 60 || authDate < now - MAX_INIT_AGE_SECONDS) return null;
   const userText = params.get('user');
   if (!userText) return null;
-  const dataCheckString = [...params.entries()].filter(([k]) => k !== 'hash' && k !== 'signature').sort(([a], [b]) => a.localeCompare(b, 'en')).map(([k, v]) => `${k}=${v}`).join('\n');
+  const dataCheckString = [...params.entries()].filter(([k]) => k !== 'hash').sort(([a], [b]) => a.localeCompare(b, 'en')).map(([k, v]) => `${k}=${v}`).join('\n');
   const tokenSecret = await hmac(ENCODER.encode('WebAppData'), env.BOT_TOKEN);
   if (!await verifyHmac(tokenSecret, dataCheckString, hash)) return null;
   let user;
